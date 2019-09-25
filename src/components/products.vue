@@ -34,7 +34,7 @@
         </tr>
       </tbody>
     </table>
-    <Pagination :products="products" :pagination="pagination" v-if="pagination"></Pagination>
+    <Pagination ></Pagination>
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -165,7 +165,7 @@ export default {
     return {
       test: {},
       products: [],
-      pagination: {},
+      page: {},
       tempProduct: {},
       isNew: false,
       isLoading: false,
@@ -179,6 +179,17 @@ export default {
   },
   mixins: [mixinGetdata],
   methods: {
+    // getProducts (page = 1) {
+    //   const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/products?page=${page}`
+    //   const vm = this
+    //   vm.isLoading = true
+    //   this.$http.get(api).then((response) => {
+    //     // console.log(response)
+    //     vm.isLoading = false
+    //     vm.products = response.data.products
+    //     // vm.pagination = response.data.pagination
+    //   })
+    // },
     openModal (isNew, item) {
       if (isNew) {
         this.tempProduct = {}
@@ -237,10 +248,14 @@ export default {
           this.$bus.$emit('message:push', response.data.message, 'danger')
         }
       })
-    }
+    },
+    // getPage (page) {
+    //   this.page = page
+    //   this.getProducts(page)
+    // }
   },
   created () {
-    // this.getProducts()
+    this.getProducts()
     // 測試 eventbus
     // 自定義名稱 'messsage:push'
     // message: 傳入參數
