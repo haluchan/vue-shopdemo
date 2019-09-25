@@ -25,16 +25,12 @@ export default {
   props: ['products', 'pagination'],
   data () {
     return {
-      pageProducts: {},
-      pagePagination: {}
+      pageProducts: this.pagination,
+      pagePagination: this.products
     }
   },
   mixins: [mixinGetdata],
   methods: {
-  },
-  created () {
-    this.pagePagination = this.pagination
-    this.pageProducts = this.products
   }
 }
 </script>
