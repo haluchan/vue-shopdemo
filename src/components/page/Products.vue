@@ -2,7 +2,7 @@
   <div class="table-responsive">
     <loading :active.sync="isLoading"></loading>
     <div class="text-right">
-      <button class="btn btn-outline-primary mt-4" @click="openModal(true)">建立新商品</button>
+      <button class="btn btn-outline-primary mt-4" @click="openModal('new')">建立新商品</button>
     </div>
     <table class="table mt-4">
       <thead>
@@ -10,7 +10,7 @@
           <td width="80">項次</td>
           <td width="120">分類</td>
           <td>名稱</td>
-          <td class="text-center" width="120">成本</td>
+          <td class="text-center" width="120">原價</td>
           <td class="text-center" width="120">售價</td>
           <td width="80">是否啟用</td>
           <td class="text-center" width="160">操作</td>
@@ -21,20 +21,23 @@
           <td>{{ item.num }}</td>
           <td>{{ item.category}}</td>
           <td>{{ item.title }}</td>
-          <td class="text-right">{{ item.origin_price }}</td>
-          <td class="text-right">{{ item.price }}</td>
+          <td class="text-right">{{ item.origin_price | currency }}</td>
+          <td class="text-right">{{ item.price | currency }}</td>
           <td class="text-center">
             <span v-if="item.is_enabled" class="text-success">啟用</span>
             <span v-else>未啟用</span>
           </td>
           <td class="text-center">
-            <button class="btn btn-outline-primary btn-sm" @click="openModal(false, item)">編輯</button><span>&nbsp;</span>
-            <button class="btn btn-outline-danger btn-sm" >刪除</button>
+            <button class="btn btn-outline-primary btn-sm" @click="openModal('edit', item)">編輯</button><span>&nbsp;</span>
+            <button class="btn btn-outline-danger btn-sm" @click="openModal('delete', item)">刪除</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <Pagination ></Pagination>
+<!--   分頁 -->
+    <Pagination :page-data="pagination" @updatePage="getPage"
+    ></Pagination>
+<!--    新增視窗-->
     <div class="modal fade" id="productModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
@@ -69,19 +72,19 @@
                 <div class="form-group">
                   <label for="title">標題</label>
                   <input type="text" class="form-control" id="title"
-                         placeholder="請輸入標題" v-model="tempProduct.title">
+                         placeholder="請輸入標題" v-model.trim="tempProduct.title">
                 </div>
 
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <label for="category">分類</label>
                     <input type="text" class="form-control" id="category"
-                           placeholder="請輸入分類" v-model="tempProduct.category">
+                           placeholder="請輸入分類" v-model.trim="tempProduct.category">
                   </div>
                   <div class="form-group col-md-6">
                     <label for="price">單位</label>
                     <input type="unit" class="form-control" id="unit"
-                           placeholder="請輸入單位" v-model="tempProduct.unit">
+                           placeholder="請輸入單位" v-model.trim="tempProduct.unit">
                   </div>
                 </div>
 
@@ -89,12 +92,12 @@
                   <div class="form-group col-md-6">
                     <label for="origin_price">原價</label>
                     <input type="number" class="form-control" id="origin_price"
-                           placeholder="請輸入原價" v-model="tempProduct.origin_price">
+                           placeholder="請輸入原價" v-model.trim="tempProduct.origin_price">
                   </div>
                   <div class="form-group col-md-6">
                     <label for="price">售價</label>
                     <input type="number" class="form-control" id="price"
-                           placeholder="請輸入售價" v-model="tempProduct.price">
+                           placeholder="請輸入售價" v-model.trim="tempProduct.price">
                   </div>
                 </div>
                 <hr>
@@ -102,12 +105,12 @@
                 <div class="form-group">
                   <label for="description">產品描述</label>
                   <textarea type="text" class="form-control" id="description"
-                            placeholder="請輸入產品描述" v-model="tempProduct.description"></textarea>
+                            placeholder="請輸入產品描述" v-model.trim="tempProduct.description"></textarea>
                 </div>
                 <div class="form-group">
                   <label for="content">說明內容</label>
                   <textarea type="text" class="form-control" id="content"
-                            placeholder="請輸入產品說明內容" v-model="tempProduct.content"></textarea>
+                            placeholder="請輸入產品說明內容" v-model.trim="tempProduct.content"></textarea>
                 </div>
                 <div class="form-group">
                   <div class="form-check">
@@ -123,11 +126,14 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="updateProduct">確認</button>
+            <button type="button" class="btn btn-primary"
+                    @click="updateProduct"
+            >確認</button>
           </div>
         </div>
       </div>
     </div>
+<!--    刪除確認視窗-->
     <div class="modal fade" id="delProductModal" tabindex="-1" role="dialog"
          aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -146,6 +152,7 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">取消</button>
             <button type="button" class="btn btn-danger"
+                    @click="updateProduct"
             >確認刪除</button>
           </div>
         </div>
@@ -155,19 +162,27 @@
 </template>
 
 <script>
-import Pagination from '@/components/pagination'
+import Pagination from '@/components/Pagination'
 import $ from 'jquery'
-import { mixinGetdata } from '@/mixin'
 
 export default {
   name: 'products',
   data () {
     return {
-      test: {},
       products: [],
       page: {},
-      tempProduct: {},
-      isNew: false,
+      pagination: {},
+      tempProduct: {
+        origin_price: {
+          Type: Number,
+          required: true
+        },
+        price: {
+          Type: Number,
+          required: true
+        }
+      },
+      modalType: '',
       isLoading: false,
       status: {
         fileUploading: false
@@ -177,47 +192,61 @@ export default {
   components: {
     Pagination
   },
-  mixins: [mixinGetdata],
   methods: {
-    // getProducts (page = 1) {
-    //   const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/products?page=${page}`
-    //   const vm = this
-    //   vm.isLoading = true
-    //   this.$http.get(api).then((response) => {
-    //     // console.log(response)
-    //     vm.isLoading = false
-    //     vm.products = response.data.products
-    //     // vm.pagination = response.data.pagination
-    //   })
-    // },
-    openModal (isNew, item) {
-      if (isNew) {
-        this.tempProduct = {}
-        this.isNew = true
+    getProducts (page = 1) {
+      const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/products?page=${page}`
+      const vm = this
+      vm.isLoading = true
+      // this.$http.get和this.axios.get是一樣axios已bind在vue原型下，使用vue-axios這個套件
+      this.$http.get(api).then((response) => {
+        // console.log(response)
+        vm.isLoading = false
+        vm.products = response.data.products
+        vm.pagination = response.data.pagination
+      })
+    },
+    // 開啟 modal(popup) 的觸發方法 (確保遠端資料已接收完畢，才能開啟 modal)
+    openModal (type, item) {
+      if (type === 'delete') {
+        this.tempProduct = Object.assign({}, item) // es6寫法，取消item傳參考特性複製給tempProduct，只複製值
+        this.modalType = type
+        $('#delProductModal').modal('show')
       } else {
         this.tempProduct = Object.assign({}, item) // es6寫法，取消item傳參考特性複製給tempProduct，只複製值
-        this.isNew = false
+        if (type === 'new') {
+          this.tempProduct = {}
+        }
+        this.modalType = type
+        $('#productModal').modal('show')
       }
-      $('#productModal').modal('show')
     },
     updateProduct () {
       let api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/product`
-      let httpMethod = 'post'
+      let httpMethod
       const vm = this
-      if (!vm.isNew) {
+      if (vm.modalType === 'edit') {
         api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/product/${vm.tempProduct.id}`
         httpMethod = 'put'
+      } else if (vm.modalType === 'delete') {
+        api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/product/${vm.tempProduct.id}`
+        httpMethod = 'delete'
+      } else if (vm.modalType === 'new') {
+        httpMethod = 'post'
       }
       this.$http[httpMethod](api, { data: vm.tempProduct }).then((response) => {
-        console.log(response)
+        // console.log(response)
         if (response.data.success) {
           $('#productModal').modal('hide')
-          vm.getProducts()
+          $('#delProductModal').modal('hide')
+          vm.getProducts(vm.page)
+          console.log('操作成功')
         } else {
           $('#productModal').modal('hide')
-          vm.getProducts()
-          console.log('新增失敗')
+          $('#delProductModal').modal('hide')
+          vm.getProducts(vm.page)
+          console.log('操作失敗')
         }
+        vm.modalType = ''
       })
     },
     uploadFile () {
@@ -249,10 +278,11 @@ export default {
         }
       })
     },
-    // getPage (page) {
-    //   this.page = page
-    //   this.getProducts(page)
-    // }
+    // 把分頁的值傳回
+    getPage (page) {
+      this.page = page
+      this.getProducts(page)
+    }
   },
   created () {
     this.getProducts()

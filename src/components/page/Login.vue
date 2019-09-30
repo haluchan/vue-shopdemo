@@ -14,10 +14,14 @@
       <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
     </form>
+<!-- 使用v-model 來綁定資料，不用寫事件監聽就可以實現雙向綁定@input="methods",也少寫個function
+    需配合$emit('input', val)，使用input事件名 -->
+    <test class="text-center" v-model="user.username"></test>
   </div>
 </template>
 
 <script>
+import test from '@/components/Test'
 export default {
   name: 'login',
   data () {
@@ -28,6 +32,7 @@ export default {
       }
     }
   },
+  components: { test },
   methods: {
     signin () {
       const api = `${process.env.VUE_APP_API_PATH}/admin/signin`
