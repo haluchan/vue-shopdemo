@@ -56,7 +56,7 @@
               <del class="h6" v-if="product.price">原價 {{ product.origin_price }} 元</del>
               <div class="h4" v-if="product.price">現在只要 {{ product.price }} 元</div>
             </div>
-            <select name="" class="form-control mt-3" v-model="product.num">
+            <select name="" class="form-control mt-3" v-model="itemNumber">
               <option :value="num" v-for="num in 10" :key="num">
                 選購 {{num}} {{product.unit}}
               </option>
@@ -67,7 +67,7 @@
               小計 <strong>{{ product.num * product.price }}</strong> 元
             </div>
             <button type="button" class="btn btn-primary"
-                    @click="addCart(product.id, product.num)">
+                    @click="addCart(product.id, itemNumber)">
               <i class="fas fa-spinner fa-spin" v-if="status.addCart"></i>
               加到購物車
             </button>
@@ -103,18 +103,18 @@
           </td>
           <td class="align-middle">{{ item.qty }}  {{ item.product.unit }}</td>
           <td class="align-middle">{{ item.product.price | currency }}</td>
+          <td class="align-middle text-right">{{ item.total - item.final_total | currency }}</td>
           <td class="align-middle text-right">{{ item.final_total | currency }}</td>
-          <td class="align-middle text-right">{{ item.product.price - item.final_total | currency }}</td>
         </tr>
         </tbody>
         <tfoot>
         <tr>
           <td colspan="5" class="text-right">總計</td>
-          <td class="text-right">{{ cart.total | currency }}</td>
+          <td class="text-right">{{ cart.final_total | currency }}</td>
         </tr>
-        <tr v-if=" cart.final_total !== cart.total ">
+        <tr v-if=" cart.total !== cart.total ">
           <td colspan="5" class="text-right text-success">折扣價</td>
-          <td class="text-right text-success">{{ cart.total - cart.final_total | currency }}</td>
+          <td class="text-right text-success">{{ cart.final_total | currency }}</td>
         </tr>
         </tfoot>
       </table>
@@ -137,10 +137,10 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="deleteItemLabel">購物車商品移除確認</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
+              <h5 class="modal-title" id="deleteItemLabel">購物車商品移除確認</h5>
             </div>
             <div class="modal-body">
               <p>是否移除下列商品</p>
@@ -225,6 +225,7 @@ export default {
     return {
       products: [],
       product: {},
+      itemNumber: 1,
       isLoading: false,
       deleteItem: {},
       deleteCartId: '',
@@ -234,6 +235,7 @@ export default {
         addCart: false
       },
       cart: {},
+      discountTotalPrice: '',
       coupon_code: '',
       showCoupon_error: false,
       form: {
@@ -280,8 +282,9 @@ export default {
       }
       vm.status.addItem = id
       this.$http.post(url, { data: cart }).then(response => {
-        vm.status.addItem = ''
         vm.getCart()
+        $('#productModal').modal('hide')
+        vm.status.addItem = ''
       })
     },
     deleteCartItem (id) {
@@ -302,6 +305,7 @@ export default {
       const vm = this
       vm.isLoading = true
       this.$http.get(api).then((response) => {
+        console.log('cart', response)
         vm.cart = response.data.data
         vm.isLoading = false
       })
@@ -320,6 +324,7 @@ export default {
       vm.isLoading = true
       this.$http.post(url, { data: coupon }).then((response) => {
         if (response.data.success) {
+          console.log('coupon', response)
           vm.getCart()
         } else {
           vm.showCoupon_error = true
@@ -331,6 +336,7 @@ export default {
     creatOrder () {
       const url = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/order`
       const vm = this
+
       const order = vm.form
       this.$validator.validate().then(result => {
         if (result) {

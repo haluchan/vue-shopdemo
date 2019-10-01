@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import 'bootstrap'
@@ -11,11 +12,12 @@ import App from './App.vue'
 import router from './router'
 import './bus'
 import currencyFilter from '@/filters/currency'
+import correctTime from '@/filters/date'
 // import store from './store'
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios) // 讓axios直接bind在vue原型下, 可以用 this.axios.get()或是this.$http.get()使用ajax
-
+Vue.use(Vuex)
 Vue.use(VeeValidate)
 VeeValidate.Validator.localize('zh-TW', TW) // 啟用語言包
 // 開啟cookies
@@ -23,6 +25,7 @@ axios.defaults.withCredentials = true
 // 全域載入loading元件
 Vue.component('Loading', Loading)
 Vue.filter('currency', currencyFilter)
+Vue.filter('dateTime', correctTime)
 
 new Vue({
   router,
