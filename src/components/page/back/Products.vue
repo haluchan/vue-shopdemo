@@ -1,6 +1,5 @@
 <template>
   <div class="table-responsive">
-    <loading :active.sync="isLoading"></loading>
     <div class="text-right">
       <button class="btn btn-outline-primary mt-4" @click="openModal('new')">建立新商品</button>
     </div>
@@ -183,7 +182,6 @@ export default {
         }
       },
       modalType: '',
-      isLoading: false,
       status: {
         fileUploading: false
       }
@@ -196,11 +194,13 @@ export default {
     getProducts (page = 1) {
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/products?page=${page}`
       const vm = this
-      vm.isLoading = true
+      // vm.$store.state.isLoading = true
+      // 用dispatch 來操作 vuex裡的action function
+      vm.$store.dispatch('updateLoading', true)
       // this.$http.get和this.axios.get是一樣axios已bind在vue原型下，使用vue-axios這個套件
       this.$http.get(api).then((response) => {
         // console.log(response)
-        vm.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
         vm.products = response.data.products
         vm.pagination = response.data.pagination
       })

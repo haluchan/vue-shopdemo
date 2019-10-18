@@ -1,6 +1,5 @@
 <template>
   <div>
-    <loading :active.sync="isLoading"></loading>
     <div class="row mt-4">
       <div class="col-md-4 mb-4" v-for="item in products" :key="item.id">
         <div class="card border-0 shadow-sm">
@@ -226,7 +225,6 @@ export default {
       products: [],
       product: {},
       itemNumber: 1,
-      isLoading: false,
       deleteItem: {},
       deleteCartId: '',
       status: {
@@ -254,9 +252,9 @@ export default {
     getProducts (page = 1) {
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/products?page=${page}`
       const vm = this
-      vm.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(api).then((response) => {
-        vm.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
         vm.products = response.data.products
       })
     },
@@ -303,11 +301,11 @@ export default {
     getCart () {
       const api = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/cart`
       const vm = this
-      vm.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(api).then((response) => {
         console.log('cart', response)
         vm.cart = response.data.data
-        vm.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     confirmDelete (item, id) {
@@ -321,7 +319,7 @@ export default {
       const coupon = {
         code: vm.coupon_code
       }
-      vm.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.post(url, { data: coupon }).then((response) => {
         if (response.data.success) {
           console.log('coupon', response)
@@ -330,7 +328,7 @@ export default {
           vm.showCoupon_error = true
         }
         vm.showCoupon_error = false
-        vm.isLoading = false
+        vm.$store.dispatch('updateLoading', false)
       })
     },
     creatOrder () {
@@ -340,11 +338,11 @@ export default {
       const order = vm.form
       this.$validator.validate().then(result => {
         if (result) {
-          vm.isLoading = true
+          vm.$store.dispatch('updateLoading', true)
           this.$http.post(url, { data: order }).then((response) => {
             console.log('訂單已建立', response)
             if (response.data.success) {
-              vm.isLoading = false
+              vm.$store.dispatch('updateLoading', false)
               vm.$router.push(`/customer_checkout/${response.data.orderId}`)
             }
           })

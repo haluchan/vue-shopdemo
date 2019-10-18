@@ -1,0 +1,21 @@
+@import "../helpers/_reset";
+@import '../../../node_modules/bootstrap/scss/functions';
+@import "../helpers/_variables";
+@import '../../../node_modules/bootstrap/scss/bootstrap';
+@import '../helpers/dashboard';
+@import '../helpers/_search';
+
+
+
+@font-face {
+  font-family: EBGaramond-Regular;
+  src: url('/src/assets/fonts/EBGaramond-Regular.ttf') format('EBGaramond-Regular');
+  src: url('/src/assets/fonts/EBGaramond-Medium.ttf') format('EBGaramond-medium');
+}
+html {
+  overflow-x: hidden;
+  //font-size: 62.5%;
+  font-size: calc(0.25em + 1vw);
+}
+
+

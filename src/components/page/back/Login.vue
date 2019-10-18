@@ -1,7 +1,7 @@
 <template>
   <div>
     <form class="form-signin" @submit.prevent="signin">
-      <h1 class="h3 mb-3 font-weight-normal">HaluVue 網站</h1>
+      <h1 class="h3 mb-3 font-weight-normal">snow climb 後台</h1>
       <label for="inputEmail" class="sr-only">電子信箱</label>
       <input type="email" id="inputEmail" class="form-control" v-model="user.username" placeholder="Email address" required autofocus>
       <label for="inputPassword" class="sr-only">密碼</label>
@@ -12,7 +12,7 @@
         </label>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">登入</button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
+      <p class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
     </form>
 <!-- 使用v-model 來綁定資料，不用寫事件監聽就可以實現雙向綁定@input="methods",也少寫個function
     需配合$emit('input', val)，使用input事件名 -->

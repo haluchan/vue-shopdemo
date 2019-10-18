@@ -1,11 +1,10 @@
 <template>
   <div class="table-responsive">
-    <loading :active.sync="isLoading"></loading>
     <table class="table mt-4">
       <thead>
       <tr>
         <td width="70">時間</td>
-        <td width="200">訂單編號</td>
+        <td width="210">訂單編號</td>
         <td>購買項目</td>
         <td class="text-center" width="120">付款完成</td>
         <td class="text-center" width="80">操作</td>
@@ -83,7 +82,12 @@
                 </table>
               </div>
             </div>
+            <div class="col">
+              <h5>訊息</h5>
+              <p>{{ orderDetail.message }}</p>
+            </div>
           </div>
+
           <div class="modal-footer">
             <div class="float-right">
               <H5>總金額: {{ orderDetail.total }}</H5>
@@ -117,7 +121,6 @@ export default {
       },
       page: '',
       pagination: {},
-      isLoading: false,
       modalType: '',
       tempOrder: {},
       total: ''
@@ -127,11 +130,16 @@ export default {
     updateOrder (page = 1) {
       const url = `${process.env.VUE_APP_API_PATH}/api/${process.env.VUE_APP_CUSTOM_PATH}/admin/orders?page=${page}`
       const vm = this
-      this.isLoading = true
+      vm.$store.dispatch('updateLoading', true)
       this.$http.get(url).then((response) => {
-        vm.isLoading = false
-        vm.orders = response.data.orders
-        vm.pagination = response.data.pagination
+        vm.$store.dispatch('updateLoading', false)
+        if (response.data.success) {
+          vm.orders = response.data.orders
+          vm.pagination = response.data.pagination
+        } else {
+          console.log('無法取得列表', response)
+          this.$router.push('/login')
+        }
       })
     },
     getOrderDetail (orderId) {
@@ -139,6 +147,7 @@ export default {
       const vm = this
       $('#orderModal').modal('show')
       this.$http.get(url).then((response) => {
+        // console.log(response)
         vm.orderDetail = response.data.order
       })
     },

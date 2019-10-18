@@ -1,14 +1,22 @@
 <template>
   <div id="app">
     <div>
-      <router-view name="menu"></router-view>
-    </div>
-    <div>
+      <loading :active.sync="isLoading"></loading>
       <router-view></router-view>
     </div>
   </div>
 </template>
+<script>
+export default {
+  computed: {
+    isLoading () {
+      return this.$store.state.isLoading
+    }
+  }
+}
+</script>
 <style lang="scss">
-@import "./assets/all";
+@import "./assets/scss/main";
+/*@import "~bootstrap/scss/bootstrap";*/
 
 </style>

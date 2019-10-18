@@ -1,0 +1,31 @@
+
+@mixin media($name) {
+  // 預設範圍
+  $defaults: (
+          xs:auto 576px,
+          sm:577px 767px,
+          md:768px 992px,
+          lg:993px 1199px,
+          xl:1200px auto
+  );
+
+  $point: map-get( $defaults , $name);
+
+  @if $point and 1 {
+    $min: nth($point,1);
+    $max: nth($point,2);
+    @if $min == auto {
+      @media (max-width: $max) {
+        @content;
+      }
+    } @else if $max == auto {
+      @media (min-width: $min) {
+        @content;
+      }
+    } @else {
+      @media (min-width: $min) and (max-width: $max) {
+        @content;
+      }
+    }
+  }
+}
