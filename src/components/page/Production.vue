@@ -12,14 +12,14 @@
         </div>
       </div>
       <div class="row m-4 fixcolum">
-        <ProductFilter></ProductFilter>
+        <ProductFilter class="itemfilter col-md-2"></ProductFilter>
         <div class="col-sm-12 col-md-10">
           <div class="tab-content" id="v-pills-tabContent">
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
               <div class="container-fluid">
                 <div class="row">
-                  <div class="col-md-4 mb-3" v-for="item in filterProduct" :key="item.id">
-                    <div class="card border-0 shadow-sm">
+                  <div class="card-columns" >
+                    <div class="card" style="min-width: 250px;" v-for="item in filterProduct" :key="item.id">
                       <div class="item-img" style=" background-size: cover; background-position: center"
                            :style="{ backgroundImage:`url(${ item.imageUrl })` }">
                       </div>
@@ -196,11 +196,40 @@ export default {
   left: -120px;
   z-index: 80;
 }
+.card-columns {
+  column-count: 1;
+  @include media-breakpoint-only(md) {
+    column-count: 2;
+  }
+  @include media-breakpoint-only(lg) {
+    column-count: 3;
+  }
+  @include media-breakpoint-only(xl) {
+    column-count: 3;
+  }
+}
 .fixcolum{
   display: inline-flex;
   flex-wrap: wrap;
   flex-flow: row;
   justify-content: space-around;
+  .itemfilter {
+    @include media(xl) {
+      position: relative;
+      width: 140px;
+    }
+    @include media(md) {
+      position: relative;
+      min-width: 120px;
+    }
+    @include media(sm) {
+      position: absolute;
+      min-width: 120px;
+    }
+    @include media(xs) {
+      position: absolute;
+    }
+  }
   .card{
     width: 100%;
     .item-img{
@@ -236,7 +265,7 @@ export default {
         font-size: 0.9rem;
       }
       @include media(sm){
-        height: 40px;
+        height: 5em;
         font-size: 1.3rem;
       }
       @include media(xs){
