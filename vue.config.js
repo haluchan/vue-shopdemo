@@ -1,7 +1,9 @@
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/vue-shopdemo/' // github repository 名稱 用來建立git page用
+    : '/',
   // 配置高於chainWebpack中關於 css loader 的配置
   assetsDir: 'assets/',
-  publicPath: '/', // Base directory for dev
   css: {
     // 是否建立css map，false 可以提高complier速度
     sourceMap: false,
