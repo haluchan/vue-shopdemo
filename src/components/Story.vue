@@ -59,7 +59,7 @@ export default {
 @import "../assets/helpers/_media-queries";
 .story{
   position: relative;
-  padding: 6em 0;
+  padding: 5em 0;
   text-align: center;
   .story-title{
     /*width: 28%;*/
@@ -114,8 +114,11 @@ export default {
       @include media(xs){
         width: calc(100% / 2 - 30px);
       }
-    margin-bottom: 48px;
+    margin-bottom: 2.75em;
     display: inline-block;
+      @include media(xs){
+        margin-bottom: 1.25em;
+      }
       .bgImg {
         transition: transform ease .3s,filter ease 1s;
         &:hover{
@@ -134,17 +137,45 @@ export default {
       transition: transform ease .3s,filter ease 1s;
     }
     .detail{
+      font-size: 1rem;
       & p{
         margin-bottom: 0.3em;
+        @include media(md){
+          font-size: 1.3rem;
+        }
+        @include media(sm){
+          font-size: 1.6rem;
+        }
+        @include media(xs){
+          font-size: 1.6rem;
+        }
       }
       & :first-child{
         padding-top: 1em;
-        font-size: 1.2em;
+        font-size: 1rem;
         font-family: EBGaramond-Regular,monospace;
+        @include media(md){
+          font-size: 1.3rem;
+        }
+        @include media(sm){
+          font-size: 1.6rem;
+        }
+        @include media(xs){
+          font-size: 1.6rem;
+        }
       }
       & :last-child{
         font-size: 0.7rem;
         color: #717171;
+        @include media(md){
+          font-size: 0.9rem;
+        }
+        @include media(sm){
+          font-size: 1.1rem;
+        }
+        @include media(xs){
+          font-size: 1.3rem;
+        }
       }
     }
   }

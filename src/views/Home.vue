@@ -322,10 +322,19 @@ export default {
     li{
       width: calc( 100% / 1);
       a{
-        font-size: 0.75em;
+        font-size: 1.3em;
         padding: 0 0 0 0.75em;
         color: black;
         text-decoration: none;
+        @include media(md){
+          font-size: 1.3em;
+        }
+        @include media(sm){
+          font-size: 1.6em;
+        }
+        @include media(xs){
+          font-size: 2.2em;
+        }
       }
       img {
         height: 40px;

@@ -1,9 +1,9 @@
-//[API]: /api/:api_path/admin/orders?page=:page
-//[說明]:  建立訂單從客戶購物進行下單
-//@api_path = 'thisismycourse2'
-//@page 當前第幾頁(分頁參數)
-//[方法]: get
-//[成功回傳]:
+// [API]: /api/:api_path/admin/orders?page=:page
+// [說明]:  建立訂單從客戶購物進行下單
+// @api_path = 'thisismycourse2'
+// @page 當前第幾頁(分頁參數)
+// [方法]: get
+// [成功回傳]:
 {
   "success": true,
   "orders": [

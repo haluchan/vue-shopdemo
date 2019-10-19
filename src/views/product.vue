@@ -1,9 +1,10 @@
 <template>
-  <div class="product" :class="{ productMain : showsSlide === true }">
-    <loading :active.sync="Loading"></loading>
+  <div>
+    <div class="product" :class="{ productMain : showsSlide === true }">
     <FrontNavbar></FrontNavbar>
       <router-view></router-view>
     <FooterInfo></FooterInfo>
+    </div>
   </div>
 </template>
 
@@ -25,7 +26,6 @@ export default {
   },
   computed: {
     ...mapGetters(['showsSlide']),
-    ...mapGetters('LoadingModules', ['Loading'])
   },
   methods: {
   },

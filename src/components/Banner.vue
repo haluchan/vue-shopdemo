@@ -8,7 +8,7 @@
         <a href="">
           <span class="banner-title">
           <p>在這塊自然土地上，親手編織夢想<br>服裝紡織的尋訪之旅</p>
-          <h2>LOCAL WEAR TOURISM in<br> MITSUKE/TOCHIO</h2>
+          <h2 class="main-title">LOCAL WEAR TOURISM in<br> MITSUKE/TOCHIO</h2>
           <div>接受申請中<span>&nbsp; ></span></div>
           </span>
         </a>
@@ -18,7 +18,7 @@
         <a href="">
           <span class="banner-title">
           <p>尋訪地方上，傳統與文化的熱情推手<br>文化體驗之旅</p>
-          <h2>LOCAL WEAR TOURISM in<br> ICHINOSEKI 2nd</h2>
+          <h2 class="main-title">LOCAL WEAR TOURISM in<br> ICHINOSEKI 2nd</h2>
           <div>接受申請中<span>&nbsp; ></span></div>
           </span>
         </a>
@@ -28,7 +28,7 @@
         <a href="">
           <span class="banner-title">
           <p>聚集野遊記憶的博物館<br>8.24 Grand OPEN</p>
-          <h2>Snow climb MUSEUM<br></h2>
+          <h2 class="main-title">Snow climb MUSEUM<br></h2>
           <div>前往頁面<span>&nbsp; ></span></div>
           </span>
         </a>
@@ -38,7 +38,7 @@
         <a href="">
           <span class="banner-title">
           <p>野生動植物的最佳季節<br>傳統服飾製作的訪問之旅</p>
-          <h2>Camp Debut in Autumn<br></h2>
+          <h2 class="main-title">Camp Debut in Autumn<br></h2>
           <div>前往頁面<span>&nbsp; ></span></div>
           </span>
         </a>
@@ -64,7 +64,7 @@ export default {
       slickOptions: {
         dots: true,
         infinite: true,
-        autoplay: false,
+        autoplay: true,
         speed: 300,
         fade: true,
         cssEase: 'linear',
@@ -98,9 +98,9 @@ export default {
 <style lang="scss">
 @import "../assets/helpers/_media-queries";
 
-.slick-dots {
+.slick-slider .slick-dots {
   position: relative;
-  top: -90px;
+  top: -4em;
 }
 li.slick-active button:before {
   color: white;
@@ -142,8 +142,17 @@ li.slick-active button:before {
     font-size: 1.2rem;
     margin-bottom: -0.1em;
   }
-  & h2{
+  & .main-title{
     font-size: 2rem;
+    @include media(md){
+      font-size: 2.4rem;
+    }
+    @include media(sm){
+      font-size: 3rem;
+    }
+    @include media(xs){
+      font-size: 5rem;
+    }
   }
   & :last-child {
     vertical-align: top;

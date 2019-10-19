@@ -80,8 +80,18 @@ export default {
         }
     a{
       text-decoration: none;
-      font-size: 0.75em;
+      font-size: 1.3rem;
       color: black;
+      vertical-align: text-bottom;
+      @include media(md){
+        font-size: 1.3rem;
+      }
+      @include media(sm){
+        font-size: 1.6rem;
+      }
+      @include media(xs){
+        font-size: 1.6rem;
+      }
         img {
           height: 65px;
         }

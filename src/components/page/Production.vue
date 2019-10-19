@@ -1,6 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
+      <loading :active.sync="Loading"></loading>
       <div class="top col-12 jumbotron">
         <div><img src="../../assets/img/banner/8796209741854.jpeg" alt=""></div>
         <div>
@@ -121,6 +122,7 @@ export default {
   },
   computed: {
     ...mapGetters(['showsSlide']),
+    ...mapGetters('LoadingModules', ['Loading']),
     ...mapGetters('ProductsModules', ['category', 'product']), // 取出vuex的gutters
     filterProduct () {
       let filterBox = []
