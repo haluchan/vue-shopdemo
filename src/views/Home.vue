@@ -269,7 +269,7 @@ export default {
   opacity: 1;
 }
 .fade-enter {
-  transform: translateY(100px);
+  /*transform: translateY(100px);*/
   opacity: 0;
 }
 

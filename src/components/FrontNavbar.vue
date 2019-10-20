@@ -312,4 +312,7 @@ export default {
     display: block;
   }
 }
+.container-fluid .row .jumbotron{
+  background-color: white;
+}
 </style>

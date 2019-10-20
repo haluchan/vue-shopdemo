@@ -4,7 +4,7 @@
       <div><h4>分類</h4></div>
       <div class="nav flex-column nav-pills item" role="tablist" aria-orientation="vertical"
            v-for=" item in category" :key="item">
-        <a class="nav-link" data-toggle="pill" role="tab"
+        <a class="nav-link filter-title" data-toggle="pill" role="tab"
            :class="{ 'active': getProductFilter === item }"
            @click="activeFilter(item)"
         >{{ item }}</a>
@@ -44,9 +44,17 @@ export default {
   .side {
     text-align: center;
     width: 100%;
+    font-size: 1.2rem;
     h4{
+      font-size: 1.3rem;
       @include media(xl){
         width: 150px;
+      }
+      @include media(sm){
+      font-size: 2.6rem;
+      }
+      @include media(xs){
+        font-size: 2.8rem;
       }
     }
     position: relative;
@@ -72,7 +80,14 @@ export default {
       @include media(xl){
         width: 140px;
       }
-      a{
+      .filter-title{
+        font-size: 1rem;
+        @include media(sm){
+          font-size: 1.4rem;
+        }
+        @include media(xs){
+          font-size: 1.8rem;
+        }
         cursor: pointer;
       }
 

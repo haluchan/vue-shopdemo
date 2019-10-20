@@ -80,7 +80,7 @@ export default {
         }
     a{
       text-decoration: none;
-      font-size: 1.3rem;
+      font-size: 0.9rem;
       color: black;
       vertical-align: text-bottom;
       @include media(md){

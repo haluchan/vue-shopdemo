@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <loading :active.sync="Loading"></loading>
+      <loading :active.sync="Loading" :is-full-page="true"></loading>
       <div class="top col-12 jumbotron">
         <div><img src="../../assets/img/banner/8796209741854.jpeg" alt=""></div>
         <div>
@@ -255,24 +255,49 @@ export default {
         height: 40px;
         font-size: 2rem;
       }
+      a {
+        @include media(xs){
+          font-size: 2.2rem;
+        }
+      }
     }
     .card-text{
       height: 80px;
       font-size: 0.75rem;
       @include media(lg){
-        font-size: 0.9rem;
+        font-size: 1rem;
       }
       @include media(md){
         height: 80px;
-        font-size: 0.9rem;
+        font-size: 1.2rem;
       }
       @include media(sm){
         height: 5em;
-        font-size: 1.3rem;
+        font-size: 1.6rem;
       }
       @include media(xs){
         height: 40px;
-        font-size: 1.3rem;
+        font-size: 1.7rem;
+      }
+    }
+    .d-flex{
+      .h5{
+        padding-top: 10px;
+        @include media(xs){
+          font-size: 2.7rem;
+        }
+      }
+      .h6{
+        @include media(xs){
+          font-size: 2.5rem;
+        }
+      }
+    }
+    .card-footer {
+      button{
+        @include media(xs){
+        font-size: 1.8rem;
+        }
       }
     }
   }

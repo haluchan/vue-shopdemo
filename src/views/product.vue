@@ -25,7 +25,7 @@ export default {
     FooterInfo
   },
   computed: {
-    ...mapGetters(['showsSlide']),
+    ...mapGetters(['showsSlide'])
   },
   methods: {
   },

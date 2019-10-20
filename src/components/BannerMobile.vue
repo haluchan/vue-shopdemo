@@ -65,7 +65,7 @@ export default {
       slickOptions: {
         dots: true,
         infinite: true,
-        autoplay: false,
+        autoplay: true,
         speed: 300,
         fade: true,
         cssEase: 'linear',
