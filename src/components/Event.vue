@@ -1,6 +1,6 @@
 <template>
   <div class="event">
-    <h2>Event</h2>
+    <h2 v-animate="'slide-right'" >Event</h2>
     <ul class="event-item">
       <li><a href="#">
         <div><img src="../assets/img/event/top_bnr_sq_spwp2019@2x.jpg" alt=""></div>
@@ -66,6 +66,22 @@ export default {
       }
     }
   }
+}
+
+.animate {
+  transition-delay: .1s;
+  transition-duration: .5s;
+  transition-timing-function: ease-in
+}
+
+.slide-right {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.slide-right.animate-active {
+  transform: translateX(0px);
+  opacity: 1;
 }
 
 </style>

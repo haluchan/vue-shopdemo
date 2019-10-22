@@ -8,10 +8,10 @@ import 'vue-loading-overlay/dist/vue-loading.css'
 import VeeValidate from 'vee-validate' // 驗證表單套件
 import TW from 'vee-validate/dist/locale/zh_TW' // 驗證表單套件語言包
 import './assets/scss/main.scss'
+import VueAnimate from 'vue-animate-scroll'
 
 import App from './App.vue'
 import router from './router'
-import './bus'
 import currencyFilter from '@/filters/currency'
 import correctTime from '@/filters/date'
 import store from './store'
@@ -40,6 +40,7 @@ Vue.use(VueScrollReveal, {
   mobile: false
 })
 Vue.use(Autocomplete)
+Vue.use(VueAnimate)
 
 new Vue({
   router,

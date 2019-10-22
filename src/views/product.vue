@@ -91,7 +91,6 @@ export default {
   }
 }
 .product{
-  max-width: 1200px;
   position: relative;
   left: 0;
   right: 0;

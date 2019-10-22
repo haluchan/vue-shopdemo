@@ -285,6 +285,11 @@ export default {
   .navbar{
     background-color: rgba(0, 0, 0, 0.2);
   }
+  .alert{
+    position: absolute;
+    z-index: 100;
+    right: 0;
+  }
 }
 .open{
   left:0;
@@ -348,5 +353,4 @@ export default {
   margin: 0 -15px;
   padding: 2em 0;
 }
-
 </style>

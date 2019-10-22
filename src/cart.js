@@ -8,7 +8,8 @@ export default {
   state: {
     cart: {},
     cartNum: '',
-    cartId: ''
+    cartId: '',
+    alert: false
   },
   actions: { // 操作行為
     // context是vuex預設的參數，包含以下內容，status是自訂參數(正確名為payload)
@@ -53,6 +54,9 @@ export default {
           console.log('移除失敗', response.data.message)
         }
       })
+    },
+    alertMessage (context, val) {
+      context.commit('ALERTACTIVE', val)
     }
   },
   mutations: { // 操作資料狀態
@@ -67,11 +71,17 @@ export default {
     },
     ADDCART (state, payload) {
       state.cartId = payload
+    },
+    ALERTACTIVE (state, payload) {
+      state.alert = payload
     }
   },
   getters: { // 類似computed
     cart (state) {
       return state.cart
+    },
+    getAlert (state) {
+      return state.alert
     }
   },
   modules: {

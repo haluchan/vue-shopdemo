@@ -47,3 +47,4 @@
 - Font Awesome
 - scrollreveal
 - slick.js
+- vue-animate-scroll

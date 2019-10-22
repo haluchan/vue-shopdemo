@@ -1,6 +1,6 @@
 <template>
   <div class="Category">
-    <h2>Products</h2>
+    <h2 v-animate="'slide-right'" >Products</h2>
     <ul>
       <li><a href=""><img src="../assets/img/icon/SDE-003R.jpg" alt="">帳篷</a></li>
       <li><a href=""><img src="../assets/img/icon/TP-851S.jpg" alt="">篷布</a></li>
@@ -102,5 +102,21 @@ export default {
       }
     }
   }
+}
+
+.animate {
+  transition-delay: .1s;
+  transition-duration: .5s;
+  transition-timing-function: ease-in
+}
+
+.slide-right {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.slide-right.animate-active {
+  transform: translateX(0px);
+  opacity: 1;
 }
 </style>

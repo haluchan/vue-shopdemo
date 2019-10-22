@@ -2,7 +2,7 @@
   <div>
     <div class="note">
       <div class="node-title">
-        <h2>Product notice</h2>
+        <h2 v-animate="'slide-right'" >Product notice</h2>
         <span>產品重要通知</span>
       </div>
       <div class="note-container">
@@ -111,6 +111,22 @@ export default {
     }
   }
 
+}
+
+.animate {
+  transition-delay: .1s;
+  transition-duration: .5s;
+  transition-timing-function: ease-in
+}
+
+.slide-right {
+  transform: translateX(-100px);
+  opacity: 0;
+}
+
+.slide-right.animate-active {
+  transform: translateX(0px);
+  opacity: 1;
 }
 
 </style>

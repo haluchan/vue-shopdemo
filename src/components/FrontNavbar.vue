@@ -58,19 +58,29 @@
               </tr>
               </tbody>
             </table>
-            <router-link to="/product/cart">
-              <button class="btn btn-primary btn-block">
+            <div>
+              <button class="btn btn-primary btn-block"
+              @click="checkCart">
               <i class="fa fa-cart-plus" aria-hidden="true"></i> 結帳去
               </button>
-            </router-link>
+            </div>
           </div>
         </div>
       </div>
     </nav>
+    <div class="alert alert-warning alert-dismissible fade"
+    :class="{ show : getAlert === true }">
+      <strong>購物車裡面沒東西喔</strong>
+      <button type="button" class="close"
+      @click=" hideAlert ">
+        <span >&times;</span>
+      </button>
+    </div>
   </div>
 </template>
 <script>
 import { mapGetters, mapActions } from 'vuex'
+// import $ from 'jquery'
 export default {
   name: 'FrontNavbar',
   props: ['open'],
@@ -79,7 +89,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('CartModules', ['cart']),
+    ...mapGetters('CartModules', ['cart', 'getAlert']),
     cartNum () {
       return this.$store.state.CartModules.cartNum
     },
@@ -97,6 +107,17 @@ export default {
       } else {
         this.$store.dispatch('slidMenu', false)
       }
+    },
+    checkCart () {
+      if (!this.$store.state.CartModules.cart.carts.length) {
+        console.log('購物車為空喔')
+        this.$store.dispatch('CartModules/alertMessage', true)
+      } else {
+        this.$router.push('product/cart')
+      }
+    },
+    hideAlert () {
+      this.$store.dispatch('CartModules/alertMessage', false)
     }
   },
   created () {
@@ -314,5 +335,8 @@ export default {
 }
 .container-fluid .row .jumbotron{
   background-color: white;
+}
+.alert{
+ position: absolute;
 }
 </style>
