@@ -181,6 +181,7 @@ export default {
     this.getProducts()
     if (this.$route.params.id) {
       this.$store.dispatch('ProductsModules/searchId', this.$route.params.id)
+      console.log('OK')
     }
   }
 }

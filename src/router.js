@@ -31,12 +31,17 @@ export default new Router({
       component: Home
     },
     {
-      path: '/product/:id',
+      path: '/product/',
       name: 'Product',
       component: Product,
       children: [
         {
           path: '/product/',
+          name: 'production',
+          component: Production
+        },
+        {
+          path: '/product/:id',
           name: 'production',
           component: Production
         },
