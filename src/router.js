@@ -23,7 +23,7 @@ export default new Router({
   routes: [
     {
       path: '*',
-      redirect: '/login'
+      redirect: '/'
     },
     {
       path: '/',
@@ -31,17 +31,17 @@ export default new Router({
       component: Home
     },
     {
-      path: '/product/',
+      path: '/product',
       name: 'Product',
       component: Product,
       children: [
         {
-          path: '/product/',
+          path: '/product',
           name: 'production',
           component: Production
         },
         {
-          path: '/product/:id',
+          path: '/product:id',
           name: 'production',
           component: Production
         },

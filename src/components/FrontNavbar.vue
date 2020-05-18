@@ -113,7 +113,7 @@ export default {
         console.log('購物車為空喔')
         this.$store.dispatch('CartModules/alertMessage', true)
       } else {
-        this.$router.push('product/cart')
+        this.$router.push({ path: 'product/cart' }).catch(() => {})
       }
     },
     hideAlert () {
