@@ -22,10 +22,6 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '*',
-      redirect: '/'
-    },
-    {
       path: '/',
       name: 'home',
       component: Home
@@ -41,11 +37,6 @@ export default new Router({
           component: Production
         },
         {
-          path: '/product:id',
-          name: 'production',
-          component: Production
-        },
-        {
           path: '/product/cart',
           name: 'cart',
           component: Cart
@@ -54,7 +45,12 @@ export default new Router({
           path: '/product/payment',
           name: 'payment',
           component: Payment
-        }
+        },
+        // {
+        //   path: '/product/:id',
+        //   name: 'production',
+        //   component: Production
+        // },
       ]
     },
     {
@@ -103,6 +99,10 @@ export default new Router({
           component: CustomerCheckout
         }
       ]
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 })
